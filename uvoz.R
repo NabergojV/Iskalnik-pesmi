@@ -34,9 +34,22 @@ delete.na <- function(DF, n=0) {
 
 tidy_tabela <- delete.na(tabela)
 
+write.csv(tidy_tabela, "tabela.csv")
 
 
+# posamezne tabele
 
-
+izvajalec <- list(tidy_tabela[1])
+#izbrise iste vrstice
+izbrisi <- function(seznam){
+  nov_seznam <- c()
+  for (i in seznam){
+    if (i not in nov_seznam){
+      append(nov_seznam,i)
+    }
+    else{
+    }
+  }
+}
 
 
