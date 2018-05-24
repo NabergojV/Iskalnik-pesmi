@@ -9,5 +9,5 @@ __pycache__
 .Rproj.user
 .RData
 auth.py
-auth.R
+auth_public.R
 Thumbs.db
