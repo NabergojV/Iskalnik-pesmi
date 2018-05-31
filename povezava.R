@@ -4,8 +4,8 @@ library(dbplyr)
 
 #Uvoz:
 source("auth_public.R", encoding="UTF-8")
-source("uvoz/uvoz.r", encoding="UTF-8")
-
+source("uvoz.r", encoding="UTF-8")
+  
 # Povezemo se z gonilnikom za PostgreSQL
 drv <- dbDriver("PostgreSQL") 
 
@@ -54,20 +54,26 @@ create_table <- function(){
     pesem <- dbSendQuery(conn, build_sql("CREATE TABLE pesem(
                                           id integer PRIMARY KEY,
                                           naslov text NOT NULL,
-                                          dolžina integer NOT NULL,
-                                          leto date NOT NULL)"))
+                                          leto integer NOT NULL,
+                                          dolzina text NOT NULL,
+                                          FOREIGN KEY (zvrst) REFERENCES zvrst(id),
+                                          FOREIGN KEY (izvajalec) REFERENCES izvajalec(id),
+                                          FOREIGN KEY (album) REFERENCES album(id)"))
     
 
     
     dbSendQuery(conn, build_sql("GRANT ALL ON ALL TABLES IN SCHEMA public TO tajad WITH GRANT OPTION"))
     dbSendQuery(conn, build_sql("GRANT ALL ON ALL TABLES IN SCHEMA public TO veronikan WITH GRANT OPTION"))
     dbSendQuery(conn, build_sql("GRANT ALL ON ALL TABLES IN SCHEMA public TO marinas WITH GRANT OPTION"))
+    dbSendQuery(conn, build_sql("GRANT ALL ON ALL TABLES IN SCHEMA public TO javnost WITH GRANT OPTION"))
+    
     dbSendQuery(conn, build_sql("GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO tajad WITH GRANT OPTION"))
     dbSendQuery(conn, build_sql("GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO veronikan WITH GRANT OPTION"))
     dbSendQuery(conn, build_sql("GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO marinas WITH GRANT OPTION"))
+    dbSendQuery(conn, build_sql("GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO javnost WITH GRANT OPTION"))
     
 #    dbSendQuery(conn, build_sql("GRANT CONNECT ON DATABASE sem2018_marinas TO javnost"))
-#    dbSendQuery(conn, build_sql("GRANT SELECT ON ALL TABLES IN SCHEMA public TO javnost"))
+#   dbSendQuery(conn, build_sql("GRANT SELECT ON ALL TABLES IN SCHEMA public TO javnost"))
     
   }, finally = {
     # Na koncu nujno prekinemo povezavo z bazo,
@@ -76,7 +82,6 @@ create_table <- function(){
     # Koda v finally bloku se izvede, preden program konča z napako
   })
 }
-
 
 #Funcija, ki vstavi podatke
 insert_data <- function(){
@@ -130,10 +135,10 @@ pravice <- function(){
   })
 }
 
-
-delete_table()
 pravice()
+delete_table()
 create_table()
 insert_data()
 
-con <- src_postgres(dbname = db, host = host, user = user, password = password)
+#con <- src_postgres(dbname = db, host = host, user = user, password = password)
+

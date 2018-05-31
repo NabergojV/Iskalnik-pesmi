@@ -16,7 +16,7 @@ uvozi<-function(){
   return(read.csv2(file="Music-Database.csv",
                    skip=11,
                    header=FALSE,
-                   fileEncoding = "WINDOWS-1252",
+                   fileEncoding = "UTF-8",
                    na=c("","??")))
 }
 
@@ -77,3 +77,4 @@ zvrst=data.frame(zvrst_id, ime_zvrsti)
 pesem_id <- c(1:length(tidy_tabela$`song name`))
 pesmi <- tidy_tabela[ , c(2,4,6)]
 pesem <- data.frame(pesem_id, pesmi)
+
