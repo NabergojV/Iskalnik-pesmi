@@ -140,6 +140,5 @@ delete_table()
 create_table()
 insert_data()
 
-k 
 #con <- src_postgres(dbname = db, host = host, user = user, password = password)
 
