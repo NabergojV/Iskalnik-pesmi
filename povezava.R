@@ -3,6 +3,7 @@ library(dplyr)
 library(dbplyr)
 
 #Uvoz:
+#source("auth.R", encoding="UTF-8")
 source("auth_public.R", encoding="UTF-8")
 source("uvoz.r", encoding="UTF-8")
   
@@ -72,7 +73,7 @@ create_table <- function(){
     dbSendQuery(conn, build_sql("GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO marinas WITH GRANT OPTION"))
     dbSendQuery(conn, build_sql("GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO javnost WITH GRANT OPTION"))
     
-#    dbSendQuery(conn, build_sql("GRANT CONNECT ON DATABASE sem2018_marinas TO javnost"))
+#   dbSendQuery(conn, build_sql("GRANT CONNECT ON DATABASE sem2018_marinas TO javnost"))
 #   dbSendQuery(conn, build_sql("GRANT SELECT ON ALL TABLES IN SCHEMA public TO javnost"))
     
   }, finally = {
