@@ -55,10 +55,10 @@ create_table <- function(){
                                           id integer PRIMARY KEY,
                                           naslov text NOT NULL,
                                           leto integer NOT NULL,
-                                          dolzina text NOT NULL,
-                                          FOREIGN KEY (zvrst) REFERENCES zvrst(id),
-                                          FOREIGN KEY (izvajalec) REFERENCES izvajalec(id),
-                                          FOREIGN KEY (album) REFERENCES album(id))"))
+                                          dolzina text NOT NULL )"))
+                                         # FOREIGN KEY (zvrst) REFERENCES zvrst(id),
+                                        #  FOREIGN KEY (izvajalec) REFERENCES izvajalec(id),
+                                        #  FOREIGN KEY (album) REFERENCES album(id))"))
     
 
     
