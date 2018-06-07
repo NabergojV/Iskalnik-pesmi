@@ -3,6 +3,7 @@ library(dplyr)
 library(dbplyr)
 
 #Uvoz:
+#source("auth.R")
 source("auth_public.R", encoding="UTF-8")
 source("uvoz.r", encoding="UTF-8")
   
