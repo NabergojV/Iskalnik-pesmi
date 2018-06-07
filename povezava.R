@@ -58,7 +58,7 @@ create_table <- function(){
                                           dolzina text NOT NULL,
                                           FOREIGN KEY (zvrst) REFERENCES zvrst(id),
                                           FOREIGN KEY (izvajalec) REFERENCES izvajalec(id),
-                                          FOREIGN KEY (album) REFERENCES album(id)"))
+                                          FOREIGN KEY (album) REFERENCES album(id))"))
     
 
     
