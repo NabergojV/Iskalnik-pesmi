@@ -48,7 +48,7 @@ for(author in tidy_tabela$artist){
   }
 }
 author_id <- c(1:length(authors))
-izvajalec=data.frame(author_id, authors)
+izvajalec=data.frame(id=author_id, ime=authors)
 
 # tabela album
 
@@ -59,7 +59,7 @@ for(album in tidy_tabela$`album name`){
   }
 }
 album_id <- c(1:length(naslov_albuma))
-album=data.frame(album_id, naslov_albuma)
+album=data.frame(id=album_id, naslov=naslov_albuma)
 
 # tabela zvrst
 
@@ -70,11 +70,14 @@ for(zvrst in tidy_tabela$genre){
   }
 }
 zvrst_id <- c(1:length(ime_zvrsti))
-zvrst=data.frame(zvrst_id, ime_zvrsti)
+zvrst=data.frame(id=zvrst_id, ime=ime_zvrsti)
 
 # tabela pesmi
 
 pesem_id <- c(1:length(tidy_tabela$`song name`))
 pesmi <- tidy_tabela[ , c(2,4,6)]
-pesem <- data.frame(pesem_id, pesmi)
+pesem <- data.frame(id=pesem_id, pesmi)
+imena_stolpcev <- c("id", "naslov", "leto", "dolzina")
+colnames(pesem) <- imena_stolpcev
+
 

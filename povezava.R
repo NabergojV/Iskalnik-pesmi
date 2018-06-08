@@ -65,11 +65,11 @@ create_table <- function(){
     
     dbSendQuery(conn, build_sql("GRANT ALL ON ALL TABLES IN SCHEMA public TO tajad WITH GRANT OPTION"))
     dbSendQuery(conn, build_sql("GRANT ALL ON ALL TABLES IN SCHEMA public TO veronikan WITH GRANT OPTION"))
-#    dbSendQuery(conn, build_sql("GRANT ALL ON ALL TABLES IN SCHEMA public TO marinas WITH GRANT OPTION"))
+    dbSendQuery(conn, build_sql("GRANT ALL ON ALL TABLES IN SCHEMA public TO marinas WITH GRANT OPTION"))
 
     dbSendQuery(conn, build_sql("GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO tajad WITH GRANT OPTION"))
     dbSendQuery(conn, build_sql("GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO veronikan WITH GRANT OPTION"))
-#    dbSendQuery(conn, build_sql("GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO marinas WITH GRANT OPTION"))
+    dbSendQuery(conn, build_sql("GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO marinas WITH GRANT OPTION"))
 
     dbSendQuery(conn, build_sql("GRANT CONNECT ON DATABASE sem2018_marinas TO javnost"))
     dbSendQuery(conn, build_sql("GRANT SELECT ON ALL TABLES IN SCHEMA public TO javnost"))
@@ -115,11 +115,11 @@ pravice <- function(){
     
     dbSendQuery(conn, build_sql("GRANT ALL ON ALL TABLES IN SCHEMA public TO tajad WITH GRANT OPTION"))
     dbSendQuery(conn, build_sql("GRANT ALL ON ALL TABLES IN SCHEMA public TO veronikan WITH GRANT OPTION"))
-#    dbSendQuery(conn, build_sql("GRANT ALL ON ALL TABLES IN SCHEMA public TO marinas WITH GRANT OPTION"))
+    dbSendQuery(conn, build_sql("GRANT ALL ON ALL TABLES IN SCHEMA public TO marinas WITH GRANT OPTION"))
     
     dbSendQuery(conn, build_sql("GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO tajad WITH GRANT OPTION"))
     dbSendQuery(conn, build_sql("GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO veronikan WITH GRANT OPTION"))
-#    dbSendQuery(conn, build_sql("GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO marinas WITH GRANT OPTION"))
+    dbSendQuery(conn, build_sql("GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO marinas WITH GRANT OPTION"))
     
     dbSendQuery(conn, build_sql("GRANT CONNECT ON DATABASE sem2018_marinas TO javnost"))
     dbSendQuery(conn, build_sql("GRANT SELECT ON ALL TABLES IN SCHEMA public TO javnost"))
