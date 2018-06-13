@@ -61,7 +61,28 @@ create_table <- function(){
                                         #  FOREIGN KEY (izvajalec) REFERENCES izvajalec(id),
                                         #  FOREIGN KEY (album) REFERENCES album(id))"))
     
-
+    #tabele relacij:
+    
+    izvaja <- dbSendQuery(conn, build_sql("CREATE TABLE izvaja(
+                                          id INTEGER PRIMARY KEY,
+                                          izvajalec INTEGER NOT NULL REFERENCES izvajalec(id),
+                                          pesem INTEGER NOT NULL REFERENCES pesem(id))"))
+    
+    ima <- dbSendQuery(conn, build_sql("CREATE TABLE ima(
+                                          id INTEGER PRIMARY KEY,
+                                          zvrst INTEGER NOT NULL REFERENCES zvrst(id),
+                                          pesem INTEGER NOT NULL REFERENCES pesem(id))"))
+    
+    nosilec <- dbSendQuery(conn, build_sql("CREATE TABLE nosilec(
+                                          id INTEGER PRIMARY KEY,
+                                          izvajalec INTEGER NOT NULL REFERENCES izvajalec(id),
+                                          album INTEGER NOT NULL REFERENCES album(id))"))
+    
+    nahaja <- dbSendQuery(conn, build_sql("CREATE TABLE nahaja(
+                                           id INTEGER PRIMARY KEY,
+                                           pesem INTEGER NOT NULL REFERENCES pesem(id),
+                                           album INTEGER NOT NULL REFERENCES album(id))"))
+    
     
     dbSendQuery(conn, build_sql("GRANT ALL ON ALL TABLES IN SCHEMA public TO tajad WITH GRANT OPTION"))
     dbSendQuery(conn, build_sql("GRANT ALL ON ALL TABLES IN SCHEMA public TO veronikan WITH GRANT OPTION"))
@@ -91,6 +112,10 @@ insert_data <- function(){
     dbWriteTable(conn, name="album", album, append=T, row.names=FALSE)
     dbWriteTable(conn, name="zvrst", zvrst, append=T, row.names=FALSE)
     dbWriteTable(conn, name="pesem", pesem, append=T, row.names=FALSE)
+    dbWriteTable(conn, name="izvaja", izvaja, append=T, row.names=FALSE)
+    dbWriteTable(conn, name="ima", ima, append=T, row.names=FALSE)
+    dbWriteTable(conn, name="nahaja", nahaja, append=T, row.names=FALSE)
+    dbWriteTable(conn, name="nosilec", nosilec, append=T, row.names=FALSE)
 
   }, finally = {
     dbDisconnect(conn) 

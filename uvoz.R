@@ -37,7 +37,7 @@ tidy_tabela <- delete.na(tabela)
 write.csv(tidy_tabela, "tabela.csv")
 
 
-# posamezne tabele
+# POSAMEZNE TABELE
 
 # tabela izvajalec
 
@@ -80,4 +80,19 @@ pesem <- data.frame(id=pesem_id, pesmi)
 imena_stolpcev <- c("id", "naslov", "leto", "dolzina")
 colnames(pesem) <- imena_stolpcev
 
+# tabela izvaja
+izvaja <- tidy_tabela[, 1:2]
+# tabela ima
+ima <- tidy_tabela[,c(2,5)]
+# tabela nahaja
+nahaja <- tidy_tabela[,c(2,3)]
+# tabela nosilec
+nosi <- tidy_tabela[,c(1,3)]
 
+n <- c()
+for(n in nosi$"album name"){
+  if(!(n %in% nosi)){
+    nosi<- nosi[-c(n)]
+  }
+}
+nosilec <- nosi
