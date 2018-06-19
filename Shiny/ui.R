@@ -40,7 +40,7 @@ shinyUI(fluidPage(
   
   sidebarLayout(
     sidebarPanel(
-      selectInput(inputId = "type", label = strong("Trend index"),
+      selectInput(inputId = "type", label = strong("Naslov pesmi"),
                   choices = c("bla", "tra"),
                   selected = "bla")),
       sliderInput("min",
