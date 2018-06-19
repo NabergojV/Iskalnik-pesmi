@@ -82,17 +82,14 @@ colnames(pesem) <- imena_stolpcev
 
 # tabela izvaja
 izvaja <- tidy_tabela[, 1:2]
+colnames(izvaja) <- c("izvajalec", "pesem")
 # tabela ima
 ima <- tidy_tabela[,c(2,5)]
+colnames(ima) <- c("pesem", "zvrst")
 # tabela nahaja
 nahaja <- tidy_tabela[,c(2,3)]
-# tabela nosilec
-nosi <- tidy_tabela[,c(1,3)]
+colnames(nahaja) <- c("pesem", "album")
+# tabela nosi
+nosi <- unique(tidy_tabela[,c(1,3)])
+colnames(nosi) <- c("izvajalec", "album")
 
-n <- c()
-for(n in nosi$"album name"){
-  if(!(n %in% nosi)){
-    nosi<- nosi[-c(n)]
-  }
-}
-nosilec <- nosi

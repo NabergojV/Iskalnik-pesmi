@@ -24,6 +24,10 @@ delete_table <- function(){
     dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS album CASCADE"))
     dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS pesem CASCADE"))
     dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS zvrst CASCADE"))
+    dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS ima CASCADE"))
+    dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS nahaja CASCADE"))
+    dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS izvaja CASCADE"))
+    dbSendQuery(conn,build_sql("DROP TABLE IF EXISTS nosi CASCADE"))
     
   }, finally = {
     dbDisconnect(conn)
@@ -45,21 +49,18 @@ create_table <- function(){
                                               ime text NOT NULL)"))
     
     album <- dbSendQuery(conn, build_sql("CREATE TABLE album(
-                                          id integer PRIMARY KEY,
+                                          id INTEGER PRIMARY KEY,
                                           naslov text NOT NULL)"))
     
     zvrst <- dbSendQuery(conn, build_sql("CREATE TABLE zvrst(
-                                          id integer PRIMARY KEY,
+                                          id INTEGER PRIMARY KEY,
                                           ime text NOT NULL)"))
     
     pesem <- dbSendQuery(conn, build_sql("CREATE TABLE pesem(
-                                          id integer PRIMARY KEY,
+                                          id INTEGER PRIMARY KEY,
                                           naslov text NOT NULL,
-                                          leto integer NOT NULL,
+                                          leto INTEGER NOT NULL,
                                           dolzina text NOT NULL )"))
-                                         # FOREIGN KEY (zvrst) REFERENCES zvrst(id),
-                                        #  FOREIGN KEY (izvajalec) REFERENCES izvajalec(id),
-                                        #  FOREIGN KEY (album) REFERENCES album(id))"))
     
     #tabele relacij:
     
@@ -73,7 +74,7 @@ create_table <- function(){
                                           zvrst INTEGER NOT NULL REFERENCES zvrst(id),
                                           pesem INTEGER NOT NULL REFERENCES pesem(id))"))
     
-    nosilec <- dbSendQuery(conn, build_sql("CREATE TABLE nosilec(
+    nosi <- dbSendQuery(conn, build_sql("CREATE TABLE nosi(
                                           id INTEGER PRIMARY KEY,
                                           izvajalec INTEGER NOT NULL REFERENCES izvajalec(id),
                                           album INTEGER NOT NULL REFERENCES album(id))"))
@@ -115,7 +116,7 @@ insert_data <- function(){
     dbWriteTable(conn, name="izvaja", izvaja, append=T, row.names=FALSE)
     dbWriteTable(conn, name="ima", ima, append=T, row.names=FALSE)
     dbWriteTable(conn, name="nahaja", nahaja, append=T, row.names=FALSE)
-    dbWriteTable(conn, name="nosilec", nosilec, append=T, row.names=FALSE)
+    dbWriteTable(conn, name="nosi", nosi, append=T, row.names=FALSE)
 
   }, finally = {
     dbDisconnect(conn) 
