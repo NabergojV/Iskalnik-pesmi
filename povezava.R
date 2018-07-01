@@ -65,24 +65,20 @@ create_table <- function(){
     #tabele relacij:
     
     izvaja <- dbSendQuery(conn, build_sql("CREATE TABLE izvaja(
-                                          id INTEGER PRIMARY KEY,
-                                          izvajalec INTEGER NOT NULL REFERENCES izvajalec(id),
-                                          pesem INTEGER NOT NULL REFERENCES pesem(id))"))
+                                          izvajalec_id INTEGER NOT NULL REFERENCES izvajalec(id),
+                                          pesem_id INTEGER NOT NULL REFERENCES pesem(id))"))
     
     ima <- dbSendQuery(conn, build_sql("CREATE TABLE ima(
-                                          id INTEGER PRIMARY KEY,
-                                          zvrst INTEGER NOT NULL REFERENCES zvrst(id),
-                                          pesem INTEGER NOT NULL REFERENCES pesem(id))"))
+                                          zvrst_id INTEGER NOT NULL REFERENCES zvrst(id),
+                                          pesem_id INTEGER NOT NULL REFERENCES pesem(id))"))
     
     nosi <- dbSendQuery(conn, build_sql("CREATE TABLE nosi(
-                                          id INTEGER PRIMARY KEY,
-                                          izvajalec INTEGER NOT NULL REFERENCES izvajalec(id),
-                                          album INTEGER NOT NULL REFERENCES album(id))"))
+                                          izvajalec_id INTEGER NOT NULL REFERENCES izvajalec(id),
+                                          album_id INTEGER NOT NULL REFERENCES album(id))"))
     
     nahaja <- dbSendQuery(conn, build_sql("CREATE TABLE nahaja(
-                                           id INTEGER PRIMARY KEY,
-                                           pesem INTEGER NOT NULL REFERENCES pesem(id),
-                                           album INTEGER NOT NULL REFERENCES album(id))"))
+                                           pesem_id INTEGER NOT NULL REFERENCES pesem(id),
+                                           album_id INTEGER NOT NULL REFERENCES album(id))"))
     
     
     dbSendQuery(conn, build_sql("GRANT ALL ON ALL TABLES IN SCHEMA public TO tajad WITH GRANT OPTION"))
@@ -115,8 +111,8 @@ insert_data <- function(){
     dbWriteTable(conn, name="pesem", pesem, append=T, row.names=FALSE)
     dbWriteTable(conn, name="izvaja", izvaja, append=T, row.names=FALSE)
     dbWriteTable(conn, name="ima", ima, append=T, row.names=FALSE)
-    dbWriteTable(conn, name="nahaja", nahaja, append=T, row.names=FALSE)
     dbWriteTable(conn, name="nosi", nosi, append=T, row.names=FALSE)
+    dbWriteTable(conn, name="nahaja", nahaja, append=T, row.names=FALSE)
 
   }, finally = {
     dbDisconnect(conn) 

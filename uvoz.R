@@ -81,15 +81,61 @@ imena_stolpcev <- c("id", "naslov", "leto", "dolzina")
 colnames(pesem) <- imena_stolpcev
 
 # tabela izvaja
-izvaja <- tidy_tabela[, 1:2]
-colnames(izvaja) <- c("izvajalec", "pesem")
+izvaja1 <- tidy_tabela[, c(1,2,4,6)]
+colnames(izvaja1) <- c("izvajalec", "naslov", "leto", "dolzina")
+izvaja1 <- merge(x = izvaja1, y = pesem, by = c("naslov", "leto", "dolzina"))
+colnames(izvaja1)[colnames(izvaja1) == 'id'] <- 'pesem_id'
+izvaja1 <- izvaja1[with(izvaja1, order(pesem_id)),]
+izvaja2 <- merge(x = izvaja1, y = izvajalec, by.x = "izvajalec", by.y = "ime")
+colnames(izvaja2)[colnames(izvaja2) == 'id'] <- 'izvajalec_id'
+izvaja2 <- izvaja2[5:6]
+
+izvaja <- izvaja2[with(izvaja2, order(pesem_id)),]
+
+
 # tabela ima
-ima <- tidy_tabela[,c(2,5)]
-colnames(ima) <- c("pesem", "zvrst")
+ima1 <- tidy_tabela[,c(2,5,6)]
+colnames(ima1) <- c("naslov", "zvrst", "dolzina")
+ima1 <- merge(ima1, pesem, by = c("naslov", "dolzina") )
+ima2 <- merge(ima1, zvrst, by.x = "zvrst", by.y = "ime")
+ima <- ima2[, c(4,6)]
+colnames(ima) <- c("pesem_id", "zvrst_id")
+
+ima <- ima[with(ima, order(pesem_id)),]
+
 # tabela nahaja
-nahaja <- tidy_tabela[,c(2,3)]
-colnames(nahaja) <- c("pesem", "album")
+album1 <- tidy_tabela[,c(3,4)]
+album1 <- unique(album1)
+album1_id <- c(1:length(album1$year))
+album1 <- data.frame(album1_id, album1)
+colnames(album1) <- c("album_id", "album", "leto")
+
+nahaja1 <- tidy_tabela[,c(2,3,6)]
+colnames(nahaja1) <- c("naslov", "album", "dolzina")
+nahaja1 <- merge(nahaja1, pesem, by = c("naslov", "dolzina"))
+nahaja2 <- merge(nahaja1, album1, by = c("album", "leto"))
+nahaja <- nahaja2[, c(5,6)]
+colnames(nahaja) <- c("pesem_id", "album_id")
+
+nahaja <- nahaja[with(nahaja, order(pesem_id)),]
+
 # tabela nosi
-nosi <- unique(tidy_tabela[,c(1,3)])
-colnames(nosi) <- c("izvajalec", "album")
+nosi1 <- unique(tidy_tabela[,c(1,3,4)])
+colnames(nosi1) <- c("izvajalec", "album", "leto")
+
+nosi1 <- merge(nosi1, album1, by = c("album", "leto"))
+nosi2 <- merge(nosi1, izvajalec, by.x = "izvajalec", by.y = "ime")
+
+nosi <- data.frame(izvajalec_id = nosi2$id, album_id = nosi2$album_id)
+nosi <- nosi[with(nosi, order(izvajalec_id)),]
+
+
+
+
+
+
+
+
+
+
 
