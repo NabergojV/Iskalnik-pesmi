@@ -40,6 +40,7 @@ shinyUI(fluidPage(
   
   sidebarLayout(
     sidebarPanel(
+      textInput(inputId="pesem1",label="Naslov pesmi","The Sign"),
       selectInput(inputId = "type", label = strong("Naslov pesmi"),
                   choices = c("bla", "tra"),
                   selected = "bla")),
@@ -51,7 +52,8 @@ shinyUI(fluidPage(
     ),
     
     mainPanel(
-      tableOutput("transakcije")
+      textOutput("pesem2"),
+      textOutput("test")
     )
   )
 )

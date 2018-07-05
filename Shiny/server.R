@@ -8,19 +8,15 @@
 #
 
 library(shiny)
+library(dplyr)
+source("../auth_public.R")
 
-# Define server logic required to draw a histogram
 shinyServer(function(input, output) {
-   
-  output$distPlot <- renderPlot({
-    
-    # generate bins based on input$bins from ui.R
-    x    <- faithful[, 2] 
-    bins <- seq(min(x), max(x), length.out = input$bins + 1)
-    
-    # draw the histogram with the specified number of bins
-    hist(x, breaks = bins, col = 'darkgray', border = 'white')
-    
-  })
+  conn<-src_postgres(dbname=db,host=host,user=user,password=password)
+  indeks<-reactive({tbl(conn,"pesem")%>%filter(naslov==input$pesem1)%>%select(id)})
+  izvajalec_id1<-tbl(conn,"izvaja")%>%filter(pesem_id==indeks)%>%select(izvajalec_id)
+  izvajalec<-tbl(conn,"izvajalec")%>%filter(id==izvajalec_id1)%>%select(ime)%>%as.character()
+  output$pesem2<-renderText({c(paste("Izvajalec:",izvajalec[1]))})
+  output$test<-renderText({input$pesem1})
   
 })
