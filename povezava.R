@@ -65,12 +65,12 @@ create_table <- function(){
     #tabele relacij:
     
     izvaja <- dbSendQuery(conn, build_sql("CREATE TABLE izvaja(
-                                          izvajalec_id INTEGER NOT NULL REFERENCES izvajalec(id),
-                                          pesem_id INTEGER NOT NULL REFERENCES pesem(id))"))
+                                          pesem_id INTEGER NOT NULL REFERENCES pesem(id),
+                                          izvajalec_id INTEGER NOT NULL REFERENCES izvajalec(id))"))
     
     ima <- dbSendQuery(conn, build_sql("CREATE TABLE ima(
-                                          zvrst_id INTEGER NOT NULL REFERENCES zvrst(id),
-                                          pesem_id INTEGER NOT NULL REFERENCES pesem(id))"))
+                                          pesem_id INTEGER NOT NULL REFERENCES pesem(id),
+                                          zvrst_id INTEGER NOT NULL REFERENCES zvrst(id))"))
     
     nosi <- dbSendQuery(conn, build_sql("CREATE TABLE nosi(
                                           izvajalec_id INTEGER NOT NULL REFERENCES izvajalec(id),

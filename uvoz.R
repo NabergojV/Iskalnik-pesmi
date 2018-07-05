@@ -92,7 +92,6 @@ izvaja2 <- izvaja2[5:6]
 
 izvaja <- izvaja2[with(izvaja2, order(pesem_id)),]
 
-
 # tabela ima
 ima1 <- tidy_tabela[,c(2,5,6)]
 colnames(ima1) <- c("naslov", "zvrst", "dolzina")
@@ -104,17 +103,17 @@ colnames(ima) <- c("pesem_id", "zvrst_id")
 ima <- ima[with(ima, order(pesem_id)),]
 
 # tabela nahaja
-album1 <- tidy_tabela[,c(3,4)]
-album1 <- unique(album1)
-album1_id <- c(1:length(album1$year))
-album1 <- data.frame(album1_id, album1)
-colnames(album1) <- c("album_id", "album", "leto")
+# album1 <- tidy_tabela[,c(3,4)]
+# album1 <- unique(album1)
+# album1_id <- c(1:length(album1$year))
+# album1 <- data.frame(album1_id, album1)
+# colnames(album1) <- c("album_id", "album", "leto")
 
 nahaja1 <- tidy_tabela[,c(2,3,6)]
 colnames(nahaja1) <- c("naslov", "album", "dolzina")
 nahaja1 <- merge(nahaja1, pesem, by = c("naslov", "dolzina"))
-nahaja2 <- merge(nahaja1, album1, by = c("album", "leto"))
-nahaja <- nahaja2[, c(5,6)]
+nahaja2 <- merge(nahaja1, album, by.x = "album", by.y = "naslov")
+nahaja <- data.frame(pesem_id = nahaja2$id.x, album_id = nahaja2$id.y)
 colnames(nahaja) <- c("pesem_id", "album_id")
 
 nahaja <- nahaja[with(nahaja, order(pesem_id)),]
@@ -123,10 +122,10 @@ nahaja <- nahaja[with(nahaja, order(pesem_id)),]
 nosi1 <- unique(tidy_tabela[,c(1,3,4)])
 colnames(nosi1) <- c("izvajalec", "album", "leto")
 
-nosi1 <- merge(nosi1, album1, by = c("album", "leto"))
+nosi1 <- merge(nosi1, album, by.x = "album", by.y = "naslov")
 nosi2 <- merge(nosi1, izvajalec, by.x = "izvajalec", by.y = "ime")
 
-nosi <- data.frame(izvajalec_id = nosi2$id, album_id = nosi2$album_id)
+nosi <- data.frame(izvajalec_id = nosi2$id.y, album_id = nosi2$id.x)
 nosi <- nosi[with(nosi, order(izvajalec_id)),]
 
 
