@@ -41,21 +41,23 @@ shinyUI(fluidPage(
   sidebarLayout(
     sidebarPanel(
       textInput(inputId="pesem1",label="Naslov pesmi","The Sign"),
-      selectInput(inputId = "type", label = strong("Naslov pesmi"),
-                  choices = c("bla", "tra"),
-                  selected = "bla")),
-      sliderInput("min",
-                  "Minimalni znesek transakcije:",
-                  min = -10000,
-                  max = 10000,
-                  value = 1000)
+      textInput(inputId="album",label="Album","Happy Nation"),
+      sliderInput("leta",
+                  "Leto skladbe:",
+                  min = 1900,
+                  max = 2018,
+                  value = 1950)
     ),
     
     mainPanel(
       textOutput("pesem2"),
-      textOutput("test")
+      textOutput("test"),
+      textOutput("leto1"),
+      textOutput("dolzina2"),
+      tableOutput("tabelapesmi"),
+      tableOutput("tabelaleta")
     )
   )
 )
-
+)
 
