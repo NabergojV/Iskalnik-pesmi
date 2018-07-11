@@ -23,6 +23,7 @@ shinyServer(function(input, output) {
   # Iskanje po pesmi
   
   dolzina <- reactive({tbl.pesem %>% filter(naslov==input$pesem1) %>% select(dolzina) %>% pull()})
+  
   leto <- reactive({tbl.pesem %>% filter(naslov==input$pesem1) %>% select(leto) %>% pull()})
   album <- reactive({
     indeks <- tbl.pesem %>% filter(naslov==input$pesem1) %>% select(id) %>% pull()
