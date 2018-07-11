@@ -81,11 +81,11 @@ shinyServer(function(input, output) {
 
   # Iskanje po letih
 
-  # output$tabelaleta <- renderTable({
-  #  l <- tbl.pesem %>% filter(leto > input$min) %>% filter(leto < input$max) %>% arrange(leto) %>% data.frame()
-  #  l
-  # })
-
+  output$tabelaleta <- renderTable({
+    l <- tbl.pesem %>% filter(leto >= input$leta[1]) %>% filter(leto <= input$leta[2]) %>% arrange(leto) %>% data.frame()
+    l
+  })
+  
 })
 
 

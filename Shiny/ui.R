@@ -1,7 +1,7 @@
 library(shiny)
 library(shinythemes)
 
-shinyUI(fluidPage(theme = shinytheme("darkly"),
+shinyUI(fluidPage(theme = shinytheme("united"),
   
   titlePanel("ISKALNIK PESMI"),
   
@@ -72,7 +72,7 @@ shinyUI(fluidPage(theme = shinytheme("darkly"),
                              "Leto skladbe:",
                              min = 1970,
                              max = 2015,
-                             value = 1990)
+                             value = c(1980,2000))
                ),
 
                mainPanel(
