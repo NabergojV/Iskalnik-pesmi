@@ -16,7 +16,7 @@ uvozi<-function(){
   return(read.csv2(file="Music-Database.csv",
                    skip=11,
                    header=FALSE,
-                   fileEncoding = "UTF-8",
+                   encoding = "UTF-8",
                    na=c("","??")))
 }
 
@@ -34,7 +34,7 @@ delete.na <- function(DF, n=0) {
 
 tidy_tabela <- delete.na(tabela)
 
-write.csv(tidy_tabela, "tabela.csv")
+#write.csv(tidy_tabela, "tabela.csv")
 
 
 # POSAMEZNE TABELE

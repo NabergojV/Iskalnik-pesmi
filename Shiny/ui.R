@@ -1,60 +1,42 @@
-#
-# This is the user-interface definition of a Shiny web application. You can
-# run the application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-# 
-#    http://shiny.rstudio.com/
-#
-
-# library(shiny)
-# 
-# # Define UI for application that draws a histogram
-# shinyUI(fluidPage(
-#   
-#   # Application title
-#   titlePanel("Old Faithful Geyser Data"),
-#   
-#   # Sidebar with a slider input for number of bins 
-#   sidebarLayout(
-#     sidebarPanel(
-#        sliderInput("bins",
-#                    "Number of bins:",
-#                    min = 1,
-#                    max = 50,
-#                    value = 30)
-#     ),
-#     
-#     # Show a plot of the generated distribution
-#     mainPanel(
-#        plotOutput("distPlot")
-#     )
-#   )
-# ))
 library(shiny)
 library(shinythemes)
 
-shinyUI(fluidPage(
+shinyUI(fluidPage(theme = shinytheme("darkly"),
   
   titlePanel("ISKALNIK PESMI"),
   
   sidebarLayout(
     sidebarPanel(
       textInput(inputId="pesem1",label="Naslov pesmi","The Sign"),
+      textInput(inputId="izvajalec", label="Izvajalec", "Ace of Bass"),
       textInput(inputId="album",label="Album","Happy Nation"),
+      textInput(inputId="zvrst", label="Zvrst", "Pop"),
       sliderInput("leta",
                   "Leto skladbe:",
-                  min = 1900,
-                  max = 2018,
-                  value = 1950)
+                  min = 1970,
+                  max = 2015,
+                  value = 1990)
     ),
     
     mainPanel(
+      
+      # Iskanje po pesmih
       textOutput("pesem2"),
-      textOutput("test"),
+      textOutput("album1"),
       textOutput("leto1"),
-      textOutput("dolzina2"),
+      textOutput("zvrst1"),
+      textOutput("dolzina1"),
+      
+      # Iskanje po izvajalcu
+      tableOutput("seznam_pesmi"),
+      
+      # Iskanje po albumih
       tableOutput("tabelapesmi"),
+      
+      # Iskanje po zvrsti
+      tableOutput("seznam1"),
+      
+      # Iskanje po letih
       tableOutput("tabelaleta")
     )
   )
