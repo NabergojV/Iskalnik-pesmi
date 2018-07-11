@@ -50,12 +50,12 @@ shinyServer(function(input, output) {
   
   # Iskanje po izvajalcu
   
-  # output$seznam_pesmi <- renderTable({
-  #   indeks <- tbl.izvajalec %>% filter(ime==input$izvajalec) %>% select(id) %>% pull()
-  #   pesmiid <- tbl(conn, "izvaja") %>% filter(izvajalec_id==indeks) %>% select(pesem_id) %>% pull()
-  #   pesmi <- tbl.pesem %>% filter(id %in% pesmiid)
-  #   pesmi
-  # })
+  output$seznam_pesmi <- renderTable({
+    indeks <- tbl.izvajalec %>% filter(ime==input$izvajalec) %>% select(id) %>% pull()
+    pesmiid <- tbl(conn, "izvaja") %>% filter(izvajalec_id==indeks) %>% select(pesem_id) %>% pull()
+    pesmi <- tbl.pesem %>% filter(id %in% pesmiid)
+    pesmi
+  })
   
   
   # Iskanje po albumu
