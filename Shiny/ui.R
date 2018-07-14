@@ -14,8 +14,9 @@ shinyUI(fluidPage(theme = shinytheme("darkly"),
   titlePanel("ISKALNIK PESMI"),
   
   sidebarLayout(
-   sidebarPanel("Pozdravljeni v iskalniku pesmi. Tukaj lahko poiščete podatke za pesmi, ki vas zanimajo, 
-                lahko pa jih tudi filtrirate glede na izvajalca, album, zvrst ali leto."
+   sidebarPanel(div("Pozdravljeni v iskalniku pesmi. Tukaj lahko poiščete podatke za pesmi, ki vas zanimajo, 
+                lahko pa jih tudi filtrirate glede na izvajalca, album, zvrst ali leto."), style="color:aquamarine"
+              
    ),
     
     mainPanel(
