@@ -40,7 +40,7 @@ shinyUI(fluidPage(theme = shinytheme("darkly"),
                   return(mainPanel(textOutput("Pesmi ni v bazi")))
                 }, error = function(err) {
                   mainPanel(textOutput("Pesmi ni v bazi"))
-                }) 
+                })
                    
                  ),
           
@@ -51,7 +51,6 @@ shinyUI(fluidPage(theme = shinytheme("darkly"),
                  ),
                  
                  mainPanel(
-
                    tableOutput("seznam_pesmi")
                  
                  )
