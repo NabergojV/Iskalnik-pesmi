@@ -37,10 +37,9 @@ shinyUI(fluidPage(theme = shinytheme("darkly"),
                    textOutput("zvrst1"),
                    textOutput("dolzina1"))
                 }, warning = function(w) {
-                  return(textOutput("Pesmi ni v bazi"))
+                  return(mainPanel(textOutput("Pesmi ni v bazi")))
                 }, error = function(err) {
-                  return(
-                  mainPanel(textOutput("Pesmi ni v bazi")))
+                  mainPanel(textOutput("Pesmi ni v bazi"))
                 }) 
                    
                  ),
