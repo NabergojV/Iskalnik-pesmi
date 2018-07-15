@@ -22,7 +22,15 @@ shinyServer(function(input, output) {
   
   # Iskanje po pesmi
   
-  dolzina <- reactive({tbl.pesem %>% filter(naslov==input$pesem1) %>% select(dolzina) %>% pull()})
+  dolzina <- reactive({
+    dolz=tbl.pesem %>% filter(naslov==input$pesem1)
+    if(count(dolz)%>%pull()==0){
+      return("")
+    } else{
+      dolz2=dolz %>% select(dolzina) %>% pull()
+      paste("Dolžina: ", dolz2 )
+    }
+  })
   
   leto <- reactive({tbl.pesem %>% filter(naslov==input$pesem1) %>% select(leto) %>% pull()})
   album <- reactive({
@@ -36,34 +44,56 @@ shinyServer(function(input, output) {
     tbl.zvrst %>% filter(id==zvrst_id1) %>% select(ime) %>% pull()
   })
   izvajalec <- reactive({
-    indeks <- tbl.pesem %>% filter(naslov==input$pesem1) %>% select(id) %>% pull()
-    izvajalec_id1 <- tbl.izvaja %>% filter(pesem_id==indeks) %>% select(izvajalec_id) %>% pull()
-    tbl.izvajalec %>% filter(id==izvajalec_id1) %>% select(ime) %>% pull()
+    indeks1=tbl.pesem %>% filter(naslov==input$pesem1)
+    if(count(indeks1)%>%pull()==0){
+      output$zvrst1<- renderText({paste("")})
+      output$album1 <- renderText({paste("")})
+      output$dolzina1 <- renderText({paste("")})
+      output$leto1 <- renderText({paste("")})
+      return("Pesmi ni v bazi")
+    } else{
+      indeks= indeks1%>% select(id) %>% pull()
+      izvajalec_id1 <- tbl.izvaja %>% filter(pesem_id==indeks) %>% select(izvajalec_id) %>% pull()
+      izv<-tbl.izvajalec %>% filter(id==izvajalec_id1) %>% select(ime) %>% pull()
+      output$pesem2 <- renderText(izvajalec())
+      output$album1 <- renderText({paste("Album: ", album() )})
+      output$leto1 <- renderText({c(paste("Leto: ", leto()  ))})
+      output$zvrst1 <- renderText({c(paste("Zvrst: ", zvrst()  ))})
+      output$dolzina1 <- renderText(dolzina())
+      paste("Izvajalec: ", izv )
+    }
   })
   
-  output$pesem2 <- renderText({paste("Izvajalec: ", izvajalec() )})
+  output$pesem2 <- renderText(izvajalec())
   output$album1 <- renderText({paste("Album: ", album() )})
   output$leto1 <- renderText({c(paste("Leto: ", leto()  ))})
   output$zvrst1 <- renderText({c(paste("Zvrst: ", zvrst()  ))})
-  output$dolzina1 <- renderText({c(paste("Dolzina: ", dolzina()  ))})
+  output$dolzina1 <- renderText(dolzina())
 
   
   # Iskanje po izvajalcu
   
-  output$seznam_pesmi <- renderTable({
-    indeks <- tbl.izvajalec %>% filter(ime==input$izvajalec) %>% select(id) %>% pull()
-    pesmiid <- tbl(conn, "izvaja") %>% filter(izvajalec_id==indeks) %>% select(pesem_id) %>% pull()
-    pesmic <- tbl.pesem %>% filter(id %in% pesmiid)
-    pesmi <- pesmic[-1,]
-    pesmi
+  sez_pesmi <- reactive({
+    indeks <- tbl.izvajalec %>% filter(ime==input$izvajalec) 
+    if(count(indeks)%>% pull()==0){
+      return("Izvajalca ni v bazi")
+    } else{
+      ind=indeks %>% select(id)%>% pull()
+      pesmiid <- tbl.izvaja %>% filter(izvajalec_id==ind) %>% select(pesem_id) %>% pull()
+      pesmi <- tbl.pesem %>% filter(id %in% pesmiid)
+      paste("",pesmi)
+    }
+
   })
+  
+  output$seznam_pesmi<- renderTable(sez_pesmi()%>% select(c(naslov,leto,dolzina)))
   
   # Iskanje po albumu
   
   output$tabelapesmi <- renderTable({
    indeks2 <- tbl.album %>% filter(naslov==input$album) %>% select(id) %>% pull()
    pesmiceid <- tbl.nahaja %>% filter(album_id==indeks2) %>% select(pesem_id) %>% pull()
-   pesmice <- tbl.pesem %>% filter(id %in% pesmiceid)
+   pesmice <- tbl.pesem %>% filter(id %in% pesmiceid) %>% select(c(naslov,leto,dolzina))
    pesmice    
   })
 
@@ -73,7 +103,7 @@ shinyServer(function(input, output) {
   output$seznam1 <- renderTable({
    indeks_zvrsti <- tbl.zvrst %>% filter(ime==input$zvrst) %>% select(id) %>% pull()
    pesmiceid <- tbl.ima %>% filter(zvrst_id==indeks_zvrsti) %>% select(pesem_id) %>% pull()
-   pesmice <- tbl.pesem %>% filter(id %in% pesmiceid)
+   pesmice <- tbl.pesem %>% filter(id %in% pesmiceid) %>% select(c(naslov,leto,dolzina))
    pesmice
   })
 
@@ -82,7 +112,7 @@ shinyServer(function(input, output) {
   # Iskanje po letih
 
   output$tabelaleta <- renderTable({
-    l <- tbl.pesem %>% filter(leto >= input$leta[1]) %>% filter(leto <= input$leta[2]) %>% arrange(leto) %>% data.frame()
+    l <- tbl.pesem %>% filter(leto >= input$leta[1]) %>% filter(leto <= input$leta[2]) %>% arrange(leto) %>% data.frame()%>% select(c(naslov,leto,dolzina))
     l
   })
   

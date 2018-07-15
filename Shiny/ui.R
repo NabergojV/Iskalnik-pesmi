@@ -29,18 +29,13 @@ shinyUI(fluidPage(theme = shinytheme("darkly"),
                    textInput(inputId="pesem1",label="Naslov pesmi","The Sign")
                  ),
                  
-                tryCatch({
                   mainPanel(
                    textOutput("pesem2"),
                    textOutput("album1"),
                    textOutput("leto1"),
                    textOutput("zvrst1"),
                    textOutput("dolzina1"))
-                }, warning = function(w) {
-                  return(mainPanel(textOutput("Pesmi ni v bazi")))
-                }, error = function(err) {
-                  mainPanel(textOutput("Pesmi ni v bazi"))
-                })
+            
                    
                  ),
           
