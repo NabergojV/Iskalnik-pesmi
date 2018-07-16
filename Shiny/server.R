@@ -23,7 +23,7 @@ shinyServer(function(input, output) {
   # Iskanje po pesmi
   
   dolzina <- reactive({
-    dolz=tbl.pesem %>% filter(naslov==input$pesem1)
+    dolz=tbl.pesem %>% filter(tolower(naslov)==tolower(input$pesem1))
     if(count(dolz)%>%pull()==0){
       return("")
     } else{
@@ -32,19 +32,19 @@ shinyServer(function(input, output) {
     }
   })
   
-  leto <- reactive({tbl.pesem %>% filter(naslov==input$pesem1) %>% select(leto) %>% pull()})
+  leto <- reactive({tbl.pesem %>% filter(tolower(naslov)==tolower(input$pesem1)) %>% select(leto) %>% pull()})
   album <- reactive({
-    indeks <- tbl.pesem %>% filter(naslov==input$pesem1) %>% select(id) %>% pull()
+    indeks <- tbl.pesem %>% filter(tolower(naslov)==tolower(input$pesem1)) %>% select(id) %>% pull()
     album_id1 <- tbl.nahaja %>% filter(pesem_id==indeks) %>% select(album_id) %>% pull()
     tbl.album %>% filter(id==album_id1) %>% select(naslov) %>% pull()
   })
   zvrst <- reactive({
-    indeks <- tbl.pesem %>% filter(naslov==input$pesem1) %>% select(id) %>% pull()
+    indeks <- tbl.pesem %>% filter(tolower(naslov)==tolower(input$pesem1)) %>% select(id) %>% pull()
     zvrst_id1 <- tbl.ima %>% filter(pesem_id==indeks) %>% select(zvrst_id) %>% pull()
     tbl.zvrst %>% filter(id==zvrst_id1) %>% select(ime) %>% pull()
   })
   izvajalec <- reactive({
-    indeks1=tbl.pesem %>% filter(naslov==input$pesem1)
+    indeks1=tbl.pesem %>% filter(tolower(naslov)==tolower(input$pesem1))
     if(count(indeks1)%>%pull()==0){
       output$zvrst1<- renderText({paste("")})
       output$album1 <- renderText({paste("")})
