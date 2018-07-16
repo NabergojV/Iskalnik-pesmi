@@ -101,7 +101,7 @@ shinyServer(function(input, output) {
   # Iskanje po zvrsti
   
   output$seznam1 <- renderTable({
-   indeks_zvrsti <- tbl.zvrst %>% filter(ime==input$zvrst) %>% select(id) %>% pull()
+   indeks_zvrsti <- tbl.zvrst %>% filter(                        ime==input$zvrst) %>% select(id) %>% pull()
    pesmiceid <- tbl.ima %>% filter(zvrst_id==indeks_zvrsti) %>% select(pesem_id) %>% pull()
    pesmice <- tbl.pesem %>% filter(id %in% pesmiceid) %>% select(c(naslov,leto,dolzina))
    pesmice

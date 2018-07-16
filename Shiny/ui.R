@@ -8,6 +8,7 @@ vse_zvrsti <- c("Pop","Country","Holiday","Variété française","Latino","Child
                 "Bubblegum pop","Axé","Electropop","Pop Latino","Electronic","Dance","Folk","Pop latino",
                 "Hip-Hop/Rap","New Age","Vocal","Latin","Alternativo & Rock Latino","Sertanejo","World","Jpop",
                 "Volksmusik, Musik","Rock","Children","Eurodance","Pop-rock","Reggae","Bubblegum dance","German Pop, Music, Rock")
+vse_pesmi <- pesem$naslov
 
 shinyUI(fluidPage(theme = shinytheme("darkly"),
   
@@ -25,9 +26,12 @@ shinyUI(fluidPage(theme = shinytheme("darkly"),
         # Iskanje po pesmi
         tabPanel("Iskanje po pesmi",
                  
-                 sidebarPanel(
-                   textInput(inputId="pesem1",label="Naslov pesmi","The Sign")
-                 ),
+                 selectInput(inputId="pesem1", label="Naslov pesmi", vse_pesmi, selected = NULL, multiple = FALSE,
+                             selectize = TRUE, width = NULL, size = NULL),
+                 
+                 # sidebarPanel(
+                 #   textInput(inputId="pesem1",label="Naslov pesmi","The Sign")
+                 # ),
                  
                   mainPanel(
                    textOutput("pesem2"),
