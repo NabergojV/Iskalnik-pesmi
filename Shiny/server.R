@@ -74,7 +74,7 @@ shinyServer(function(input, output) {
   # Iskanje po izvajalcu
   
   sez_pesmi <- reactive({
-    indeks <- tbl.izvajalec %>% filter(ime==input$izvajalec) 
+    indeks <- tbl.izvajalec %>% filter(tolower(ime)==tolower(input$izvajalec)) 
     if(count(indeks)%>% pull()==0){
       return("Izvajalca ni v bazi")
     } else{
@@ -91,7 +91,7 @@ shinyServer(function(input, output) {
   # Iskanje po albumu
   
   output$tabelapesmi <- renderTable({
-   indeks2 <- tbl.album %>% filter(naslov==input$album) %>% select(id) %>% pull()
+   indeks2 <- tbl.album %>% filter(tolower(naslov)==tolower(input$album)) %>% select(id) %>% pull()
    pesmiceid <- tbl.nahaja %>% filter(album_id==indeks2) %>% select(pesem_id) %>% pull()
    pesmice <- tbl.pesem %>% filter(id %in% pesmiceid) %>% select(c(naslov,leto,dolzina))
    pesmice    
