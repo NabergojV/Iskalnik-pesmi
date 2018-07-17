@@ -132,17 +132,22 @@ shinyServer(function(input, output) {
   # Iskanje po albumu
   
   output$tabelapesmi <- renderTable({
-   indeks2 <- tbl.album %>% filter(tolower(naslov)==tolower(input$album)) %>% select(id) %>% pull()
-   pesmiceid <- tbl.nahaja %>% filter(album_id==indeks2) %>% select(pesem_id) %>% pull()
-   pesmice <- tbl.pesem %>% filter(id %in% pesmiceid) %>% select(c(naslov,leto,dolzina))
-   pesmice
+   indeks2 <- tbl.album %>% filter(tolower(naslov)==tolower(input$album)) 
+   if(count(indeks2)%>% pull()==0){
+     return("Albuma ni v bazi")
+   } else{
+       indeks22=indeks2 %>% select(id) %>% pull()
+       pesmiceid <- tbl.nahaja %>% filter(album_id==indeks2) %>% select(pesem_id) %>% pull()
+       pesmice <- tbl.pesem %>% filter(id %in% pesmiceid) %>% select(c(naslov,leto,dolzina))
+       paste("", pesmice)
+     }
   })
 
 
   # Iskanje po zvrsti
   
   output$seznam1 <- renderTable({
-   indeks_zvrsti <- tbl.zvrst %>% filter(                        ime==input$zvrst) %>% select(id) %>% pull()
+   indeks_zvrsti <- tbl.zvrst %>% filter(ime==input$zvrst) %>% select(id) %>% pull()
    pesmiceid <- tbl.ima %>% filter(zvrst_id==indeks_zvrsti) %>% select(pesem_id) %>% pull()
    pesmice <- tbl.pesem %>% filter(id %in% pesmiceid) %>% select(c(naslov,leto,dolzina))
    pesmice
