@@ -23,7 +23,8 @@ shinyServer(function(input, output) {
   # Iskanje po pesmi
   
   izvajalec <- reactive({
-    indeks1=tbl.pesem %>%  filter(tolower(naslov)==tolower(input$pesem1))
+    indeks1=tbl.pesem %>% filter(naslov %ILIKE% "%" %||% input$pesem1 %||% "%")
+    #indeks1=tbl.pesem %>%  filter(tolower(naslov)==tolower(input$pesem1))
     if(count(indeks1)%>%pull()==0){
       return("Pesmi ni v bazi")
     } else{
@@ -35,7 +36,8 @@ shinyServer(function(input, output) {
   })
   
   dolzina <- reactive({
-    dolz=tbl.pesem %>%  filter(tolower(naslov)==tolower(input$pesem1))
+    dolz=tbl.pesem %>% filter(naslov %ILIKE% "%" %||% input$pesem1 %||% "%")
+    #dolz=tbl.pesem %>%  filter(tolower(naslov)==tolower(input$pesem1))
     if(count(dolz)%>%pull()==0){
       return("")
     } else{
@@ -46,7 +48,8 @@ shinyServer(function(input, output) {
   
   
   leto <- reactive({
-    indeks1=tbl.pesem %>%  filter(tolower(naslov)==tolower(input$pesem1))
+    indeks1=tbl.pesem %>% filter(naslov %ILIKE% "%" %||% input$pesem1 %||% "%")
+    #indeks1=tbl.pesem %>%  filter(tolower(naslov)==tolower(input$pesem1))
     if(count(indeks1)%>%pull()==0){
       return("")
     } else{
@@ -56,7 +59,8 @@ shinyServer(function(input, output) {
   })
   
   album <- reactive({
-    indeks1=tbl.pesem %>%  filter(tolower(naslov)==tolower(input$pesem1))
+    indeks1=tbl.pesem %>% filter(naslov %ILIKE% "%" %||% input$pesem1 %||% "%")
+    #indeks1=tbl.pesem %>%  filter(tolower(naslov)==tolower(input$pesem1))
     if(count(indeks1)%>%pull()==0){
       return("")
     } else{
@@ -68,7 +72,8 @@ shinyServer(function(input, output) {
   })
   
   zvrst <- reactive({
-    indeks1=tbl.pesem %>%  filter(tolower(naslov)==tolower(input$pesem1))
+    indeks1=tbl.pesem %>% filter(naslov %ILIKE% "%" %||% input$pesem1 %||% "%")
+    #indeks1=tbl.pesem %>%  filter(tolower(naslov)==tolower(input$pesem1))
     if(count(indeks1)%>%pull()==0){
       return("")
     } else{
@@ -113,8 +118,9 @@ shinyServer(function(input, output) {
   # })
   
   output$seznam_pesmi<- renderTable({
+    indeks=tbl.izvajalec %>% filter(ime %ILIKE% "%" %||% input$izvajalec %||% "%")
     
-    indeks <- tbl.izvajalec %>% filter(tolower(ime)==tolower(input$izvajalec)) 
+    #indeks <- tbl.izvajalec %>% filter(tolower(ime)==tolower(input$izvajalec)) 
     if(count(indeks)%>% pull()==0){
       return("Izvajalca ni v bazi")
     } else{
@@ -132,7 +138,8 @@ shinyServer(function(input, output) {
   # Iskanje po albumu
   
   output$tabelapesmi <- renderTable({
-   indeks2 <- tbl.album %>% filter(tolower(naslov)==tolower(input$album)) 
+   indeks2=tbl.album %>% filter(naslov %ILIKE% "%" %||% input$album %||% "%")
+   #indeks2 <- tbl.album %>% filter(tolower(naslov)==tolower(input$album)) 
    if(count(indeks2)%>% pull()==0){
      return("Albuma ni v bazi")
    } else{
