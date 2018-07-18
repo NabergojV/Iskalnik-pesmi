@@ -137,9 +137,9 @@ shinyServer(function(input, output) {
      return("Albuma ni v bazi")
    } else{
        indeks22=indeks2 %>% select(id) %>% pull()
-       pesmiceid <- tbl.nahaja %>% filter(album_id==indeks2) %>% select(pesem_id) %>% pull()
+       pesmiceid <- tbl.nahaja %>% filter(album_id==indeks22) %>% select(pesem_id) %>% pull()
        pesmice <- tbl.pesem %>% filter(id %in% pesmiceid) %>% select(c(naslov,leto,dolzina))
-       paste("", pesmice)
+       pesmice
      }
   })
 
