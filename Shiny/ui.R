@@ -34,12 +34,14 @@ shinyUI(fluidPage(theme = shinytheme("darkly"),
                   ),
                  
                   mainPanel(
-                   textOutput("pesem2"),
-                   textOutput("album1"),
-                   textOutput("leto1"),
-                   textOutput("zvrst1"),
-                   textOutput("dolzina1"))
-            
+                    tableOutput("pesem55")
+                    
+                   # textOutput("pesem2"),
+                   # textOutput("album1"),
+                   # textOutput("leto1"),
+                   # textOutput("zvrst1"),
+                   # textOutput("dolzina1"))
+                
                    
                  ),
           
@@ -50,7 +52,7 @@ shinyUI(fluidPage(theme = shinytheme("darkly"),
                  ),
                  
                  mainPanel(
-                   tableOutput("seznam_pesmi")
+                   tableOutput("izvajalec55")
                  
                  )
         ),
