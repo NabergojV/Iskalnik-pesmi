@@ -20,11 +20,11 @@ shinyServer(function(input, output) {
   tbl.nosi <- tbl(conn, "nosi")
   
   
-  # Iskanje po pesmi
+  #ZAVIHEK: Iskanje po pesmi
   
   output$pesem55<- renderTable({
     vrstica=tbl.pesem %>% filter(naslov %ILIKE% "%" %||% input$pesem1 %||% "%")
-      if(count(vrstica)%>%pull()==0){
+      if(count(vrstica)%>%pull()<=0){
         return("Pesmi ni v bazi")
       } else{
         zdruzena<- inner_join(tidy_tabela, vrstica)
@@ -114,7 +114,7 @@ shinyServer(function(input, output) {
   # output$dolzina1 <- renderText(dolzina())
 
   
-  # Iskanje po izvajalcu
+  #ZAVIHEK: Iskanje po izvajalcu
   
   # sez_pesmi <- reactive({
   #   indeks <- tbl.izvajalec %>% filter(tolower(ime)==tolower(input$izvajalec)) 
@@ -158,13 +158,15 @@ shinyServer(function(input, output) {
     
     # })
   
-  # Iskanje po albumu
+  #ZAVIHEK: Iskanje po albumu
   
   output$tabelapesmi <- renderTable({
    indeks2=tbl.album %>% filter(naslov %ILIKE% "%" %||% input$album %||% "%")
    #indeks2 <- tbl.album %>% filter(tolower(naslov)==tolower(input$album)) 
    if(count(indeks2)%>% pull()==0){
      return("Albuma ni v bazi")
+   } else if(count(indeks2) %>% pull()>=22){
+     return("Preveč zadetkov")
    } else{
        indeks22=indeks2 %>% select(id) %>% pull()
        pesmiceid <- tbl.nahaja %>% filter(album_id==indeks22) %>% select(pesem_id) %>% pull()
@@ -174,7 +176,7 @@ shinyServer(function(input, output) {
   })
 
 
-  # Iskanje po zvrsti
+  #ZAVIHEK: Iskanje po zvrsti
   
   output$seznam1 <- renderTable({
    indeks_zvrsti <- tbl.zvrst %>% filter(ime==input$zvrst) %>% select(id) %>% pull()
@@ -185,7 +187,7 @@ shinyServer(function(input, output) {
 
 
 
-  # Iskanje po letih
+  #ZAVIHEK: Iskanje po letih
 
   output$tabelaleta <- renderTable({
     l <- tbl.pesem %>% filter(leto >= input$leta[1]) %>% filter(leto <= input$leta[2]) %>% arrange(leto) %>% data.frame()%>% select(c(naslov,leto,dolzina))
