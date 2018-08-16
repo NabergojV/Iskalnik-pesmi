@@ -43,7 +43,7 @@ shinyUI(fluidPage(theme = shinytheme("darkly"),
                    # textOutput("dolzina1"))
                 
                    
-                 ),
+                 )),
           
         # Iskanje po izvajalcu        
         tabPanel("Iskanje po izvajalcu",

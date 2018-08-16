@@ -156,7 +156,7 @@ shinyServer(function(input, output) {
     
     #sez_pesmi()%>% select(c(naslov,leto,dolzina))
     
-    })
+    # })
   
   # Iskanje po albumu
   
