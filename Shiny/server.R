@@ -27,8 +27,11 @@ shinyServer(function(input, output) {
       if(count(vrstica)%>%pull()<=0){
         return("Pesmi ni v bazi")
       } else{
-        zdruzena<- inner_join(tidy_tabela, vrstica)
-        }
+        zdruzena<- inner_join(tidy_tabela, vrstica, by=c("song name", "naslov"))%>%head(10)
+      }
+      if(count(zdruzena)%>%pull()>10){
+        return("Zadetkov je več kot je prikazanih")
+      } else {}
 
   })
   
@@ -135,8 +138,12 @@ shinyServer(function(input, output) {
     if(count(indeks)%>%pull()==0){
       return("Izvajalca ni v bazi")
     } else{
-      zdruzena<- inner_join(tidy_tabela, indeks)
+      zdruzena<- inner_join(tidy_tabela, indeks, by=c("artist", "ime"))
     }
+    if(count(zdruzena)%>%pull()>10){
+      return("Zadetkov je več kot je prikazanih")
+    } else {}
+    
     
   })
   
