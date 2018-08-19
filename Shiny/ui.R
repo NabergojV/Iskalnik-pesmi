@@ -23,7 +23,7 @@ shinyUI(fluidPage(theme = shinytheme("darkly"),
     mainPanel(
       tabsetPanel(
         
-        # Iskanje po pesmi
+        # ZAVIHEK: Iskanje po pesmi
         tabPanel("Iskanje po pesmi",
                  
                  #selectInput(inputId="pesem1", label="Naslov pesmi", vse_pesmi, selected = NULL, multiple = FALSE,
@@ -45,7 +45,7 @@ shinyUI(fluidPage(theme = shinytheme("darkly"),
                    
                  )),
           
-        # Iskanje po izvajalcu        
+        # ZAVIHEK: Iskanje po izvajalcu        
         tabPanel("Iskanje po izvajalcu",
                  sidebarPanel(
                    textInput(inputId="izvajalec", label="Izvajalec", "Ace of Base")
@@ -57,20 +57,19 @@ shinyUI(fluidPage(theme = shinytheme("darkly"),
                  )
         ),
         
-        # Iskanje po albumu    
+        # ZAVIHEK: Iskanje po albumu    
         tabPanel("Iskanje po albumu",
                  sidebarPanel(
                    textInput(inputId="album",label="Album","Happy Nation")
                  ),
                  
                  mainPanel(
-
                    tableOutput("album55")
                  ) 
                  
       ),
       
-      # Iskanje po zvrsti  
+      # ZAVIHEK: Iskanje po zvrsti  
       tabPanel("Iskanje po zvrsti",
                sidebarPanel(
                  selectInput(inputId="zvrst", label="Zvrst", vse_zvrsti, selected = NULL, multiple = FALSE,
@@ -80,13 +79,12 @@ shinyUI(fluidPage(theme = shinytheme("darkly"),
                ),
                
                mainPanel(
-
                  tableOutput("seznam1")
                )
                
       ),
                  
-      # Iskanje po letu  
+      # ZAVIHEK: Iskanje po letu  
       tabPanel("Iskanje po letu",
                sidebarPanel(
                  sliderInput("leta",
@@ -97,10 +95,7 @@ shinyUI(fluidPage(theme = shinytheme("darkly"),
                ),
 
                mainPanel(
-
                  tableOutput("tabelaleta")
-                 
-              
                )
       )
       

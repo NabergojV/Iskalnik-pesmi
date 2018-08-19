@@ -36,7 +36,6 @@ shinyServer(function(input, output) {
   })
   
 
-  
   # izvajalec <- reactive({
   #   indeks1=tbl.pesem %>% filter(naslov %ILIKE% "%" %||% input$pesem1 %||% "%")
   #   #indeks1=tbl.pesem %>%  filter(tolower(naslov)==tolower(input$pesem1))
@@ -119,6 +118,19 @@ shinyServer(function(input, output) {
   
   #ZAVIHEK: Iskanje po izvajalcu
   
+  output$izvajalec55<- renderTable({
+    indeks=tbl.izvajalec %>% filter(ime %ILIKE% "%" %||% input$izvajalec %||% "%")
+    if(count(indeks)%>%pull()==0){
+      return("Izvajalca ni v bazi")
+    } else{
+      zdruzena<- inner_join(tidy_tabela, indeks, by=c("artist", "ime"))
+    }
+    if(count(zdruzena)%>%pull()>10){
+      return("Zadetkov je več kot je prikazanih")
+    } else {}
+  })
+  
+  
   # sez_pesmi <- reactive({
   #   indeks <- tbl.izvajalec %>% filter(tolower(ime)==tolower(input$izvajalec)) 
   #   if(count(indeks)%>% pull()==0){
@@ -131,21 +143,6 @@ shinyServer(function(input, output) {
   #   }
   # 
   # })
-  
-  
-  output$izvajalec55<- renderTable({
-    indeks=tbl.izvajalec %>% filter(ime %ILIKE% "%" %||% input$izvajalec %||% "%")
-    if(count(indeks)%>%pull()==0){
-      return("Izvajalca ni v bazi")
-    } else{
-      zdruzena<- inner_join(tidy_tabela, indeks, by=c("artist", "ime"))
-    }
-    if(count(zdruzena)%>%pull()>10){
-      return("Zadetkov je več kot je prikazanih")
-    } else {}
-    
-    
-  })
   
   # output$seznam_pesmi<- renderTable({
   #   indeks=tbl.izvajalec %>% filter(ime %ILIKE% "%" %||% input$izvajalec %||% "%")
@@ -166,6 +163,7 @@ shinyServer(function(input, output) {
     # })
   
   #ZAVIHEK: Iskanje po albumu
+  
   output$album55<- renderTable({
     indeks2=tbl.album %>% filter(naslov %ILIKE% "%" %||% input$album %||% "%")
     if(count(indeks2)%>%pull()==0){
@@ -213,7 +211,6 @@ shinyServer(function(input, output) {
     l <- tbl.pesem %>% filter(leto >= input$leta[1]) %>% filter(leto <= input$leta[2]) %>% arrange(leto) %>% data.frame()%>% select(c(naslov,leto,dolzina))
     l
   })
-  
 })
 
 

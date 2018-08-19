@@ -37,7 +37,7 @@ delete_table <- function(){
 
 #Funkcija, ki ustvari tabele
 create_table <- function(){
-  # Uporabimo tryCatch,(da se povežemo in bazo in odvežemo)
+  # Uporabimo tryCatch (da se povežemo in bazo in odvežemo)
   # da prisilimo prekinitev povezave v primeru napake
   tryCatch({
     # Vzpostavimo povezavo
