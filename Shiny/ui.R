@@ -65,7 +65,7 @@ shinyUI(fluidPage(theme = shinytheme("darkly"),
                  
                  mainPanel(
 
-                   tableOutput("tabelapesmi")
+                   tableOutput("album55")
                  ) 
                  
       ),
