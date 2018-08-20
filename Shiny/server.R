@@ -10,6 +10,7 @@ shinyServer(function(input, output) {
                        user = user, password = password)
   
   # Povežemo se s tabelami, ki jih bomo rabili
+  
   tbl.pesem <- tbl(conn, "pesem")
   tbl.izvajalec <- tbl(conn, "izvajalec")
   tbl.album <- tbl(conn, "album")
@@ -18,6 +19,21 @@ shinyServer(function(input, output) {
   tbl.ima <- tbl(conn, "ima")
   tbl.izvaja <- tbl(conn, "izvaja")
   tbl.nosi <- tbl(conn, "nosi")
+  tidy_tabela <- tbl.izvaja %>% 
+    inner_join(tbl.nahaja) %>% 
+    inner_join(tbl.ima) %>%
+    inner_join(tbl.izvajalec, by = c("izvajalec_id" = "id")) %>% rename(izvajalec = ime) %>%
+    inner_join(tbl.album, by = c("album_id" = "id")) %>% rename(album = naslov) %>%
+    inner_join(tbl.zvrst, by = c("zvrst_id" = "id")) %>% rename(zvrst = ime) %>%
+    inner_join(tbl.pesem, by = c("pesem_id" = "id"))
+
+  zdruzi <- . %>% group_by(pesem_id, naslov, leto, dolzina) %>%
+    summarise(izvajalec = string_agg(distinct(izvajalec), "; "),
+              album = string_agg(distinct(album), "; "),
+              zvrst = string_agg(distinct(zvrst), "; "),) %>% 
+    ungroup() %>% 
+    select(-pesem_id)  
+  
   
   
   #ZAVIHEK: Iskanje po pesmi
@@ -27,7 +43,13 @@ shinyServer(function(input, output) {
       if(count(vrstica)%>%pull()<=0){
         return("Pesmi ni v bazi")
       } else{
-        zdruzena<- inner_join(tidy_tabela, vrstica, by=c("song name", "naslov"))%>%head(10)
+        zdruzena <- tidy_tabela %>% filter(naslov %ILIKE% "%" %||% input$pesem1 %||% "%") %>%
+          group_by(pesem_id, naslov, leto, dolzina) %>%
+          summarise(izvajalec = string_agg(distinct(izvajalec), "; "),
+                    album = string_agg(distinct(album), "; "),
+                    zvrst = string_agg(distinct(zvrst), "; "),) %>% ungroup() %>% select(-pesem_id)
+        
+        #zdruzena<- inner_join(tidy_tabela, vrstica, by=c("song name"="naslov"))%>%head(10)
       }
       if(count(zdruzena)%>%pull()>10){
         return("Zadetkov je več kot je prikazanih")
