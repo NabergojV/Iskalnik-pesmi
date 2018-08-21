@@ -22,6 +22,7 @@ shinyServer(function(input, output) {
   tidy_tabela <- tbl.izvaja %>% 
     inner_join(tbl.nahaja) %>% 
     inner_join(tbl.ima) %>%
+    inner_join(tbl.nosi) %>%
     inner_join(tbl.izvajalec, by = c("izvajalec_id" = "id")) %>% rename(izvajalec = ime) %>%
     inner_join(tbl.album, by = c("album_id" = "id")) %>% rename(album = naslov) %>%
     inner_join(tbl.zvrst, by = c("zvrst_id" = "id")) %>% rename(zvrst = ime) %>%
@@ -30,9 +31,7 @@ shinyServer(function(input, output) {
   zdruzi <- . %>% group_by(pesem_id, naslov, leto, dolzina) %>%
     summarise(izvajalec = string_agg(distinct(izvajalec), "; "),
               album = string_agg(distinct(album), "; "),
-              zvrst = string_agg(distinct(zvrst), "; "),) %>% 
-    ungroup() %>% 
-    select(-pesem_id)  
+              zvrst = string_agg(distinct(zvrst), "; ")) %>% ungroup() %>% select(-pesem_id) %>% head(10)   
   
   
   
@@ -42,18 +41,22 @@ shinyServer(function(input, output) {
     vrstica=tbl.pesem %>% filter(naslov %ILIKE% "%" %||% input$pesem1 %||% "%")
       if(count(vrstica)%>%pull()<=0){
         return("Pesmi ni v bazi")
-      } else{
+      } 
+      else{
         zdruzena <- tidy_tabela %>% filter(naslov %ILIKE% "%" %||% input$pesem1 %||% "%") %>%
           group_by(pesem_id, naslov, leto, dolzina) %>%
           summarise(izvajalec = string_agg(distinct(izvajalec), "; "),
                     album = string_agg(distinct(album), "; "),
-                    zvrst = string_agg(distinct(zvrst), "; "),) %>% ungroup() %>% select(-pesem_id)
-        
-        #zdruzena<- inner_join(tidy_tabela, vrstica, by=c("song name"="naslov"))%>%head(10)
+                    zvrst = string_agg(distinct(zvrst), "; ")) %>% ungroup() %>% select(-pesem_id)%>% head(10)
+        if(count(zdruzena)%>%pull()>10){
+          zdruzena
+          return("Zadetkov je več kot je prikazanih")
+        }
+        else{
+          zdruzena
+        }
       }
-      if(count(zdruzena)%>%pull()>10){
-        return("Zadetkov je več kot je prikazanih")
-      } else {}
+        
 
   })
   
@@ -144,12 +147,19 @@ shinyServer(function(input, output) {
     indeks=tbl.izvajalec %>% filter(ime %ILIKE% "%" %||% input$izvajalec %||% "%")
     if(count(indeks)%>%pull()==0){
       return("Izvajalca ni v bazi")
-    } else{
-      zdruzena<- inner_join(tidy_tabela, indeks, by=c("artist", "ime"))
+    } 
+    else{
+      zdruzena <- tidy_tabela %>% filter(ime %ILIKE% "%" %||% input$izvajalec %||% "%") %>% zdruzi()
+      if(count(indeks)%>%pull()>10){
+        zdruzena
+        return("Zadetkov je več kot je prikazanih")
+      }
+      else{
+        zdruzena
+      }
+     
     }
-    if(count(zdruzena)%>%pull()>10){
-      return("Zadetkov je več kot je prikazanih")
-    } else {}
+
   })
   
   
@@ -190,12 +200,18 @@ shinyServer(function(input, output) {
     indeks2=tbl.album %>% filter(naslov %ILIKE% "%" %||% input$album %||% "%")
     if(count(indeks2)%>%pull()==0){
       return("Albuma ni v bazi")
-    } else{
-      zdruzena<- inner_join(tidy_tabela, indeks2, by=c("album name", "naslov"))
+    } 
+    else{
+      zdruzena <- tidy_tabela %>% filter(naslov %ILIKE% "%" %||% input$album %||% "%") %>% zdruzi()      
+      if(count(indeks2)%>%pull()>10){
+        zdruzena
+        return("Zadetkov je več kot je prikazanih")
+      }
+      else{
+        zdruzena
+      }
     }
-    if(count(zdruzena)%>%pull()>10){
-      return("Zadetkov je več kot je prikazanih")
-    } else {}
+
   
   })
   
