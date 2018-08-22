@@ -19,7 +19,7 @@ shinyServer(function(input, output) {
   tbl.ima <- tbl(conn, "ima")
   tbl.izvaja <- tbl(conn, "izvaja")
   tbl.nosi <- tbl(conn, "nosi")
-  tbl.letnica<-tbl(conn, "letnica")
+  #tbl.letnica<-tbl(conn, "letnica")
   
   tidy_tabela <- tbl.izvaja %>% 
     inner_join(tbl.nahaja) %>% 
@@ -250,6 +250,12 @@ shinyServer(function(input, output) {
 
   #ZAVIHEK: Iskanje po letih
   
+  output$tabelaleta <- renderTable({
+    l <- tbl.pesem %>% filter(leto >= input$leta[1]) %>% filter(leto <= input$leta[2]) %>% arrange(leto) %>% data.frame() %>% select(c(naslov, leto,dolzina))
+    l
+  })
+  
+  
   #zdruzena.leta <-({
   #   tidy_tabela  %>% filter(leto >= input$leta[1]) %>% filter(leto <= input$leta[2])%>% arrange(leto) %>% data.frame() %>% select(c(naslov, leto,dolzina)) %>% zdruzi()
   # })
@@ -259,11 +265,11 @@ shinyServer(function(input, output) {
   # })
   
 
-  output$tabelaleta <- renderTable({
-    l <- tbl.letnica %>% filter(leto >= input$leta[1]) %>% filter(leto <= input$leta[2]) %>% arrange(leto) %>% data.frame() %>% select(c(naslov, izvajalec, leto,dolzina))
-    l
-  })
-  
+  # output$tabelaleta <- renderTable({
+  #   l <- tbl.letnica %>% filter(leto >= input$leta[1]) %>% filter(leto <= input$leta[2]) %>% arrange(leto) %>% data.frame() %>% select(c(naslov, izvajalec, leto,dolzina))
+  #   l
+  # })
+  # 
   
   
   
