@@ -95,9 +95,9 @@ colnames(izvaja1) <- c("izvajalec", "naslov", "leto", "dolzina")
 izvaja1 <- merge(x = izvaja1, y = pesem, by = c("naslov", "leto", "dolzina"))
 colnames(izvaja1)[colnames(izvaja1) == 'id'] <- 'pesem_id'
 izvaja1 <- izvaja1[with(izvaja1, order(pesem_id)),]
-izvaja2 <- merge(izvaja1, izvajalec, by.x = "izvajalec", by.y = "ime")
+izvaja2 <- merge(izvaja1, izvajalec, by.x = "izvajalec.y", by.y = "ime")
 colnames(izvaja2)[colnames(izvaja2) == 'id'] <- 'izvajalec_id'
-izvaja2 <- izvaja2[5:6]
+izvaja2 <- izvaja2[6:7]
 izvaja <- izvaja2[with(izvaja2, order(pesem_id)),]
 
 
@@ -135,7 +135,7 @@ nosi2 <- merge(nosi1, izvajalec, by.x = "izvajalec", by.y = "ime")
 nosi <- data.frame(izvajalec_id = nosi2$id.y, album_id = nosi2$id.x)
 nosi <- nosi[with(nosi, order(izvajalec_id)),]
 
-# #tabela leta
-# zdruz<-inner_join(pesem, izvaja, by=c("id"="pesem_id")) 
-# letnica<-inner_join(zdruz,izvajalec,by=c("izvajalec_id"="id"))
+#tabela leta
+zdruz<-inner_join(pesem, izvaja, by=c("id"="pesem_id")) 
+letnica<-inner_join(zdruz,izvajalec,by=c("izvajalec_id"="id"))
 
