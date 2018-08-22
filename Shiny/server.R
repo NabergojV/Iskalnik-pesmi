@@ -31,36 +31,29 @@ shinyServer(function(input, output) {
   zdruzi <- . %>% group_by(pesem_id, naslov, leto, dolzina) %>%
     summarise(izvajalec = string_agg(distinct(izvajalec), "; "),
               album = string_agg(distinct(album), "; "),
-              zvrst = string_agg(distinct(zvrst), "; ")) %>% ungroup() %>% select(-pesem_id) %>% head(10)   
+              zvrst = string_agg(distinct(zvrst), "; ")) %>% ungroup() %>% select(-pesem_id)  
   
   
   
   #ZAVIHEK: Iskanje po pesmi
   
+  zdruzena.pesmi <- reactive({
+    tidy_tabela %>% filter(naslov %ILIKE% "%" %||% input$pesem1 %||% "%") %>% zdruzi()
+  })  
+  
   output$pesem55<- renderTable({
-    vrstica=tbl.pesem %>% filter(naslov %ILIKE% "%" %||% input$pesem1 %||% "%")
-      if(count(vrstica)%>%pull()<=0){
-        return("Pesmi ni v bazi")
-      } 
-      else{
-        zdruzena <- tidy_tabela %>% filter(naslov %ILIKE% "%" %||% input$pesem1 %||% "%") %>%
-          group_by(pesem_id, naslov, leto, dolzina) %>%
-          summarise(izvajalec = string_agg(distinct(izvajalec), "; "),
-                    album = string_agg(distinct(album), "; "),
-                    zvrst = string_agg(distinct(zvrst), "; ")) %>% ungroup() %>% select(-pesem_id)%>% head(10)
-        if(count(zdruzena)%>%pull()>10){
-          zdruzena
-          return("Zadetkov je več kot je prikazanih")
-        }
-        else{
-          zdruzena
-        }
-      }
-        
-
+    zdruzena.pesmi() %>% head(10)
   })
   
-
+  output$pesem2 <- renderText({
+    stevilo <- count(zdruzena.pesmi()) %>% pull()
+    if (stevilo <= 0) {
+      return("Pesmi ni v bazi")
+    } else if (stevilo > 10) {
+      return("Zadetkov je več kot je prikazanih")
+    }
+  })
+  
   # izvajalec <- reactive({
   #   indeks1=tbl.pesem %>% filter(naslov %ILIKE% "%" %||% input$pesem1 %||% "%")
   #   #indeks1=tbl.pesem %>%  filter(tolower(naslov)==tolower(input$pesem1))
@@ -143,23 +136,21 @@ shinyServer(function(input, output) {
   
   #ZAVIHEK: Iskanje po izvajalcu
   
+  zdruzena.izvajalci <- reactive({
+    tidy_tabela %>% filter(izvajalec %ILIKE% "%" %||% input$izvajalec %||% "%") %>% zdruzi()
+  })  
+  
   output$izvajalec55<- renderTable({
-    indeks=tbl.izvajalec %>% filter(ime %ILIKE% "%" %||% input$izvajalec %||% "%")
-    if(count(indeks)%>%pull()==0){
+    zdruzena.izvajalci() %>% head(10)
+  })
+  
+  output$izvajalec2 <- renderText({
+    stevilo <- count(zdruzena.izvajalci()) %>% pull()
+    if (stevilo <= 0) {
       return("Izvajalca ni v bazi")
-    } 
-    else{
-      zdruzena <- tidy_tabela %>% filter(ime %ILIKE% "%" %||% input$izvajalec %||% "%") %>% zdruzi()
-      if(count(indeks)%>%pull()>10){
-        zdruzena
-        return("Zadetkov je več kot je prikazanih")
-      }
-      else{
-        zdruzena
-      }
-     
+    } else if (stevilo > 10) {
+      return("Zadetkov je več kot je prikazanih")
     }
-
   })
   
   
@@ -196,26 +187,24 @@ shinyServer(function(input, output) {
   
   #ZAVIHEK: Iskanje po albumu
   
-  output$album55<- renderTable({
-    indeks2=tbl.album %>% filter(naslov %ILIKE% "%" %||% input$album %||% "%")
-    if(count(indeks2)%>%pull()==0){
-      return("Albuma ni v bazi")
-    } 
-    else{
-      zdruzena <- tidy_tabela %>% filter(naslov %ILIKE% "%" %||% input$album %||% "%") %>% zdruzi()      
-      if(count(indeks2)%>%pull()>10){
-        zdruzena
-        return("Zadetkov je več kot je prikazanih")
-      }
-      else{
-        zdruzena
-      }
-    }
-
+  zdruzena.albumi <- reactive({
+    tidy_tabela %>% filter(album %ILIKE% "%" %||% input$album %||% "%") %>% zdruzi()
+  })  
   
+  output$album55<- renderTable({
+    zdruzena.albumi() %>% head(10)
   })
   
+  output$album2 <- renderText({
+    stevilo <- count(zdruzena.albumi()) %>% pull()
+    if (stevilo <= 0) {
+      return("Albuma ni v bazi")
+    } else if (stevilo > 10) {
+      return("Zadetkov je več kot je prikazanih")
+    }
+  }) 
   
+
   # output$tabelapesmi <- renderTable({
   #  indeks2=tbl.album %>% filter(naslov %ILIKE% "%" %||% input$album %||% "%")
   #  #indeks2 <- tbl.album %>% filter(tolower(naslov)==tolower(input$album)) 
