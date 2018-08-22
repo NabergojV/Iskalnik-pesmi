@@ -255,11 +255,13 @@ shinyServer(function(input, output) {
   #   l
   # })
   
-   output$tabelaleta <- renderTable({
-     l <- inner_join(tbl.pesem, tbl.izvaja, by=c("id"="pesem_id")) 
-     let<-inner_join(l, izvajalec, by=c("izvajalec_id"="id"))  %>% filter(leto >= input$leta[1]) %>% filter(leto <= input$leta[2]) %>% arrange(leto) %>% data.frame() %>% select(c(izvajalec, naslov, leto,dolzina))
-     let
-   })
+  output$tabelaleta <- renderTable({
+    l <- inner_join(tbl.pesem, tbl.izvaja, by=c("id"="pesem_id")) 
+    let<-inner_join(l, tbl.izvajalec, by=c("izvajalec_id"="id")) %>% 
+      filter(leto >= input$leta[1]) %>% filter(leto <= input$leta[2]) %>% 
+      arrange(leto) %>% data.frame() %>%select(c(ime, naslov, leto,dolzina))%>% rename(izvajalec = ime)
+    let
+  })
   
   #zdruzena.leta <-({
   #   tidy_tabela  %>% filter(leto >= input$leta[1]) %>% filter(leto <= input$leta[2])%>% arrange(leto) %>% data.frame() %>% select(c(naslov, leto,dolzina)) %>% zdruzi()
