@@ -250,11 +250,16 @@ shinyServer(function(input, output) {
 
   #ZAVIHEK: Iskanje po letih
   
-  output$tabelaleta <- renderTable({
-    l <- tbl.pesem %>% filter(leto >= input$leta[1]) %>% filter(leto <= input$leta[2]) %>% arrange(leto) %>% data.frame() %>% select(c(izvajalec, naslov, leto,dolzina))%>% select(c(izvajalec, naslov, leto,dolzina))
-    l
-  })
+  # output$tabelaleta <- renderTable({
+  #   l <- tbl.pesem %>% filter(leto >= input$leta[1]) %>% filter(leto <= input$leta[2]) %>% arrange(leto) %>% data.frame() %>% select(c(izvajalec, naslov, leto,dolzina))%>% select(c(izvajalec, naslov, leto,dolzina))
+  #   l
+  # })
   
+   output$tabelaleta <- renderTable({
+     l <- inner_join(tbl.pesem, tbl.izvaja, by=c("id"="pesem_id")) 
+     let<-inner_join(l, izvajalec, by=c("izvajalec_id"="id"))  %>% filter(leto >= input$leta[1]) %>% filter(leto <= input$leta[2]) %>% arrange(leto) %>% data.frame() %>% select(c(izvajalec, naslov, leto,dolzina))
+     let
+   })
   
   #zdruzena.leta <-({
   #   tidy_tabela  %>% filter(leto >= input$leta[1]) %>% filter(leto <= input$leta[2])%>% arrange(leto) %>% data.frame() %>% select(c(naslov, leto,dolzina)) %>% zdruzi()
