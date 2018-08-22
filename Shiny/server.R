@@ -192,14 +192,14 @@ shinyServer(function(input, output) {
   })  
   
   output$album55<- renderTable({
-    zdruzena.albumi() %>% head(10)
+    zdruzena.albumi() %>% head(50)
   })
   
   output$album2 <- renderText({
     stevilo <- count(zdruzena.albumi()) %>% pull()
     if (stevilo <= 0) {
       return("Albuma ni v bazi")
-    } else if (stevilo > 10) {
+    } else if (stevilo > 50) {
       return("Zadetkov je več kot je prikazanih")
     }
   }) 
@@ -223,21 +223,39 @@ shinyServer(function(input, output) {
 
   #ZAVIHEK: Iskanje po zvrsti
   
-  output$seznam1 <- renderTable({
-   indeks_zvrsti <- tbl.zvrst %>% filter(ime==input$zvrst) %>% select(id) %>% pull()
-   pesmiceid <- tbl.ima %>% filter(zvrst_id==indeks_zvrsti) %>% select(pesem_id) %>% pull()
-   pesmice <- tbl.pesem %>% filter(id %in% pesmiceid) %>% select(c(naslov,leto,dolzina))
-   pesmice
+  zdruzena.zvrsti <- reactive({
+    tidy_tabela %>% filter(zvrst %ILIKE% "%" %||% input$zvrst %||% "%") %>% zdruzi()
+  })  
+  
+  output$seznam1<- renderTable({
+    zdruzena.zvrsti()
   })
-
-
+  
+  # output$seznam1 <- renderTable({
+  #  indeks_zvrsti <- tbl.zvrst %>% filter(ime==input$zvrst) %>% select(id) %>% pull()
+  #  pesmiceid <- tbl.ima %>% filter(zvrst_id==indeks_zvrsti) %>% select(pesem_id) %>% pull()
+  #  pesmice <- tbl.pesem %>% filter(id %in% pesmiceid) %>% select(c(naslov,leto,dolzina))
+  #  pesmice
+  # })  
+  # output$pesem2 <- renderText({
+  #   stevilo <- count(zdruzena.pesmi()) %>% pull()
+  #   if (stevilo <= 0) {
+  #     return("Pesmi ni v bazi")
+  #   } else if (stevilo > 10) {
+  #     return("Zadetkov je več kot je prikazanih")
+  #   }
+  # })
 
   #ZAVIHEK: Iskanje po letih
 
   output$tabelaleta <- renderTable({
-    l <- tbl.pesem %>% filter(leto >= input$leta[1]) %>% filter(leto <= input$leta[2]) %>% arrange(leto) %>% data.frame()%>% select(c(naslov,leto,dolzina))
+    l <- tbl.pesem %>% filter(leto >= input$leta[1]) %>% filter(leto <= input$leta[2]) %>% arrange(leto) %>% data.frame() %>% select(c(naslov,leto,dolzina))
     l
   })
+  
+  
+  
+  
 })
 
 
