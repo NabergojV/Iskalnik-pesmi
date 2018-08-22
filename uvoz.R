@@ -83,9 +83,9 @@ letnice=data.frame(id=letnice_id, ime=datum)
 
 # tabela pesem
 pesem_id <- c(1:length(tidy_tabela$`song name`))
-pesmi <- tidy_tabela[ , c(2,4,6)]
+pesmi <- tidy_tabela[ , c(1,2,4,6)]
 pesem <- data.frame(id=pesem_id, pesmi)
-imena_stolpcev <- c("id", "naslov", "leto", "dolzina")
+imena_stolpcev <- c("id", "izvajalec", "naslov", "leto", "dolzina")
 colnames(pesem) <- imena_stolpcev
 
 
