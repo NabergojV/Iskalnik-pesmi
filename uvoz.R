@@ -70,8 +70,18 @@ for(zvrst in tidy_tabela$genre){
 zvrst_id <- c(1:length(ime_zvrsti))
 zvrst=data.frame(id=zvrst_id, ime=ime_zvrsti)
 
+#tabela letnice
+datum <- c()
+for(letnice in tidy_tabela$year){
+  if(!(letnice %in% datum)){
+    datum=c(datum, letnice)
+  }
+}
+letnice_id <- c(1:length(datum))
+letnice=data.frame(id=letnice_id, ime=datum)
 
-# tabela pesmem
+
+# tabela pesem
 pesem_id <- c(1:length(tidy_tabela$`song name`))
 pesmi <- tidy_tabela[ , c(2,4,6)]
 pesem <- data.frame(id=pesem_id, pesmi)
@@ -125,3 +135,6 @@ nosi2 <- merge(nosi1, izvajalec, by.x = "izvajalec", by.y = "ime")
 nosi <- data.frame(izvajalec_id = nosi2$id.y, album_id = nosi2$id.x)
 nosi <- nosi[with(nosi, order(izvajalec_id)),]
 
+#tabela leta
+zdruz<-inner_join(pesem, izvaja, by=c("id"="pesem_id")) 
+letnica<-inner_join(zdruz,izvajalec,by=c("izvajalec_id"="id"))
